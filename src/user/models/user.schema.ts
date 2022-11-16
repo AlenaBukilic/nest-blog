@@ -10,6 +10,15 @@ export class User {
 
   @Prop({ unique: true })
   username: string;
+
+  @Prop()
+  email: string;
+
+  @Prop({ lowercase: true })
+  emailToLoweCase: string;
+
+  @Prop()
+  password: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
