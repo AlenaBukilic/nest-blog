@@ -5,6 +5,7 @@ export type UserDocument = HydratedDocument<User>;
 
 @Schema()
 export class User {
+  [x: string]: any;
   @Prop()
   name: string;
 
@@ -15,7 +16,7 @@ export class User {
   email: string;
 
   @Prop({ lowercase: true })
-  emailToLoweCase: string;
+  emailToLowerCase: string;
 
   @Prop()
   password: string;
