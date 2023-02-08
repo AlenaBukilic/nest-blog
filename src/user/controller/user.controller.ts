@@ -7,6 +7,7 @@ import {
   Delete,
   Put,
   UseGuards,
+  Patch,
 } from '@nestjs/common';
 import { catchError, map, Observable, of } from 'rxjs';
 import { hasRoles } from 'src/auth/decorator/roles.decorator';
@@ -42,8 +43,6 @@ export class UserController {
     return this.userService.findOne(params.id);
   }
 
-  @hasRoles(UserRole.ADMIN)
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   findAll(): Observable<UserPublic[]> {
     return this.userService.findAll();
@@ -54,8 +53,18 @@ export class UserController {
     return this.userService.deleteOne(id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   updateOne(@Param('id') id: string, @Body() user: User): Observable<any> {
     return this.userService.updateOne(id, user);
+  }
+
+  @hasRoles(UserRole.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch(':id/role')
+  updateRoleOfUser(
+    @Param('id') id: string,
+    @Body() user: User,
+  ): Observable<any> | Error {
+    return this.userService.updateRoleOfUser(id, user);
   }
 }

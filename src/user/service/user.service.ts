@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
 import { AuthService } from 'src/auth/auth/auth.service';
-import { UserPublic } from '../models/user.interface';
-import { User, UserDocument } from '../models/user.schema';
+import { supportedRoles, UserPublic } from '../models/user.interface';
+import { User, UserDocument, UserRole } from '../models/user.schema';
 
 @Injectable()
 export class UserService {
@@ -66,6 +66,21 @@ export class UserService {
     delete user.email;
     delete user.emailToLowerCase;
     delete user.password;
+    delete user.role;
+
+    return from(
+      this.userModel.updateOne({ _id: new Types.ObjectId(id) }, user),
+    );
+  }
+
+  updateRoleOfUser(id: string, user: User): Observable<any> | Error {
+    delete user.email;
+    delete user.emailToLowerCase;
+    delete user.password;
+
+    if (!supportedRoles.includes(user.role)) {
+      throw Error('Not supported role type.');
+    }
 
     return from(
       this.userModel.updateOne({ _id: new Types.ObjectId(id) }, user),
