@@ -33,6 +33,10 @@ export class UserService {
     return from(this.userModel.create(newUser));
   }
 
+  _decorateUsers(users: User[]): UserPublic[] {
+    return users.map((user) => this._decorateUserPublic(user));
+  }
+
   create(user: User): Observable<UserPublic> {
     return this.authService.hashPassword(user.password).pipe(
       switchMap((passwordHash: string) =>
@@ -55,7 +59,7 @@ export class UserService {
   findAll(): Observable<UserPublic[]> {
     return from(this.userModel.find().exec()).pipe(
       map((users) => {
-        return users.map((user) => this._decorateUserPublic(user));
+        return this._decorateUsers(users);
       }),
     );
   }
@@ -65,7 +69,7 @@ export class UserService {
       map((res) => {
         const { metadata, data } = res;
         return {
-          data: data.map((user) => this._decorateUserPublic(user)),
+          data: this._decorateUsers(data),
           metadata,
         };
       }),
