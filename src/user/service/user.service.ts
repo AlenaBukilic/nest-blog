@@ -6,7 +6,7 @@ import { AuthService } from 'src/auth/auth/auth.service';
 import { supportedRoles, UserPublic } from '../models/user.interface';
 import { User, UserDocument } from '../models/user.schema';
 import { paginate, PaginationOptions } from 'nestjs-paginate-mongo';
-import { PaginationData } from 'src/auth/types/types.exporter';
+import { PaginationData } from 'src/types/types.exporter';
 
 @Injectable()
 export class UserService {
