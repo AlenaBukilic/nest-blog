@@ -4,7 +4,9 @@ import { Model, Types } from 'mongoose';
 import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
 import { AuthService } from 'src/auth/auth/auth.service';
 import { supportedRoles, UserPublic } from '../models/user.interface';
-import { User, UserDocument, UserRole } from '../models/user.schema';
+import { User, UserDocument } from '../models/user.schema';
+import { paginate, PaginationOptions } from 'nestjs-paginate-mongo';
+import { PaginationData } from 'src/auth/types/types.exporter';
 
 @Injectable()
 export class UserService {
@@ -58,6 +60,18 @@ export class UserService {
     );
   }
 
+  paginate(options: PaginationOptions): Observable<PaginationData> {
+    return from(paginate(this.userModel.find(), options)).pipe(
+      map((res) => {
+        const { metadata, data } = res;
+        return {
+          data: data.map((user) => this._decorateUserPublic(user)),
+          metadata,
+        };
+      }),
+    );
+  }
+
   deleteOne(id: string): Observable<any> {
     return from(this.userModel.deleteOne({ _id: new Types.ObjectId(id) }));
   }
@@ -79,7 +93,7 @@ export class UserService {
     delete user.password;
 
     if (!supportedRoles.includes(user.role)) {
-      throw Error('Not supported role type.');
+      throw new Error('Not supported role type.');
     }
 
     return from(
