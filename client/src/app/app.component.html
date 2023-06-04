@@ -3,8 +3,10 @@
     <span>The Blog</span>
     <span class="example-spacer"></span>
     <button mat-flat-button routerLink="/admin">Admin</button>
-    <button mat-flat-button routerLink="/users" class="position">Users</button>
-    <mat-form-field class="position" name="loginRegisterDropdown">
+    <button mat-flat-button routerLink="/users" class="position___button">
+      Users
+    </button>
+    <mat-form-field class="position___dropdown" name="loginRegisterDropdown">
       <mat-select
         placeholder="Login"
         (selectionChange)="navigateTo($event.value)"

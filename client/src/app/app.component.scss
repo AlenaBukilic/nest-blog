@@ -1,5 +1,10 @@
 .position {
-  margin-left: 20px;
+  &___button {
+    margin-left: 20px;
+  }
+  &___dropdown {
+    margin-left: 20px;
+  }
 }
 
 .example-icon {

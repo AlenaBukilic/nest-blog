@@ -10,10 +10,9 @@ import { UserService } from '../../services/user-service/user.service';
   styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent {
-  data: PaginationData | null = null;
-  constructor(private userService: UserService, private router: Router) {
-    this.data = null;
-  }
+  dataSource: PaginationData | null = null;
+  displayedColumns: string[] = ['id', 'name', 'username', 'email', 'role'];
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.initData();
@@ -24,7 +23,10 @@ export class UsersComponent {
       .findAll(1, 10)
       .pipe(
         tap((data) => console.log(data)),
-        map((paginationData: PaginationData) => (this.data = paginationData)),
+        map(
+          (paginationData: PaginationData) =>
+            (this.dataSource = paginationData),
+        ),
       )
       .subscribe();
   }
