@@ -9,7 +9,7 @@ import {
   Patch,
   Query,
 } from '@nestjs/common';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { hasRoles } from 'src/auth/decorator/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
@@ -23,10 +23,12 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Post()
-  create(@Body() user: User): Observable<User | string> {
+  create(@Body() user: User): Observable<User> {
     return this.userService.create(user).pipe(
       map((user: User) => user),
-      catchError((err: Error) => of(err.message)),
+      catchError((err: Error) => {
+        return throwError(() => err);
+      }),
     );
   }
 
