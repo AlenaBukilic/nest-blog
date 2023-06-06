@@ -38,7 +38,6 @@ export class UsersComponent {
   }
 
   onPaginateChange(event: PageEvent) {
-    console.log(event);
     let page = event.pageIndex;
     const size = event.pageSize;
 
