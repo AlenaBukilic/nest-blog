@@ -26,4 +26,12 @@
       <mat-cell *matCellDef="let row">{{ row.role }}</mat-cell>
     </ng-container>
   </mat-table>
+  <mat-paginator
+    [length]="dataSource.metadata.total"
+    [pageSize]="dataSource.metadata.perPage"
+    [pageSizeOptions]="[1, 5, 10, 25, 100]"
+    showFirstLastButtons
+    (page)="onPaginateChange($event)"
+  >
+  </mat-paginator>
 </div>
