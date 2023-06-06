@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
-import { AuthenticationService } from '../../../app/services/authentication.service';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 
 class CustomValidators {
   static passwordContainsNumbers(

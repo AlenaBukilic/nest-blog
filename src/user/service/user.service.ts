@@ -15,6 +15,12 @@ export class UserService {
     private authService: AuthService,
   ) {}
 
+  _findByEmail(email: string): Observable<User> {
+    return from(
+      this.userModel.findOne({ emailToLowerCase: email.toLowerCase() }),
+    );
+  }
+
   _decorateUserPublic(user: User): UserPublic {
     delete user._doc.password;
     delete user._doc.__v;
@@ -131,12 +137,6 @@ export class UserService {
           throw new Error('Something whent wrong.');
         }
       }),
-    );
-  }
-
-  _findByEmail(email: string): Observable<User> {
-    return from(
-      this.userModel.findOne({ emailToLowerCase: email.toLowerCase() }),
     );
   }
 
