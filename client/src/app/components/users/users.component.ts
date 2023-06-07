@@ -14,6 +14,9 @@ export class UsersComponent {
   dataSource: PaginationData | null = null;
   displayedColumns: string[] = ['id', 'name', 'username', 'email', 'role'];
   pageEvent!: PageEvent;
+  filterValue!: string;
+  page = 1;
+  size = 10;
 
   constructor(private userService: UserService, private router: Router) {}
 
@@ -21,9 +24,9 @@ export class UsersComponent {
     this.initData();
   }
 
-  _getUsers(page: number, size: number) {
+  _getUsers(page: number, size: number, username: string | undefined) {
     this.userService
-      .findAll(page, size)
+      .findAll(page, size, username)
       .pipe(
         map(
           (paginationData: PaginationData) =>
@@ -34,14 +37,21 @@ export class UsersComponent {
   }
 
   initData() {
-    this._getUsers(1, 10);
+    this._getUsers(this.page, this.size, this.filterValue);
   }
 
   onPaginateChange(event: PageEvent) {
-    let page = event.pageIndex;
-    const size = event.pageSize;
+    this.page = event.pageIndex;
+    this.size = event.pageSize;
 
-    page = page + 1;
-    this._getUsers(page, size);
+    this.page = this.page + 1;
+
+    this._getUsers(this.page, this.size, this.filterValue);
+  }
+
+  findByName(filterValue: string) {
+    this.filterValue = filterValue;
+
+    this._getUsers(this.page, this.size, this.filterValue);
   }
 }

@@ -50,13 +50,17 @@ export class UserController {
   index(
     @Query('page') page = 1,
     @Query('limit') limit = 10,
+    @Query('username') username: string | undefined,
   ): Observable<PaginationData> {
     limit = limit > 100 ? 100 : limit;
 
-    return this.userService.paginate({
-      page: Number(page),
-      perPage: Number(limit),
-    });
+    return this.userService.paginate(
+      {
+        page: Number(page),
+        perPage: Number(limit),
+      },
+      { username },
+    );
   }
 
   @Delete(':id')

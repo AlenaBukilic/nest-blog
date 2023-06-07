@@ -6,7 +6,8 @@ import { AuthService } from 'src/auth/auth/auth.service';
 import { supportedRoles, UserPublic } from '../models/user.interface';
 import { User, UserDocument } from '../models/user.schema';
 import { paginate, PaginationOptions } from 'nestjs-paginate-mongo';
-import { PaginationData } from 'src/types/types.exporter';
+import { PaginationData, SearchQuery } from 'src/types/types.exporter';
+import { throws } from 'assert';
 
 @Injectable()
 export class UserService {
@@ -43,6 +44,10 @@ export class UserService {
     return users.map((user) => this._decorateUserPublic(user));
   }
 
+  _createSearchRegex = (searchPhrase: string): RegExp => {
+    return new RegExp(`${searchPhrase}`, 'gi');
+  };
+
   create(user: User): Observable<UserPublic> {
     return this.authService.hashPassword(user.password).pipe(
       switchMap((passwordHash: string) =>
@@ -70,8 +75,20 @@ export class UserService {
     );
   }
 
-  paginate(options: PaginationOptions): Observable<PaginationData> {
-    return from(paginate(this.userModel.find(), options)).pipe(
+  paginate(
+    options: PaginationOptions,
+    searchQuery: SearchQuery,
+  ): Observable<PaginationData> {
+    const { username } = searchQuery;
+    const searchRegex = username ? this._createSearchRegex(username) : null;
+    return from(
+      paginate(
+        this.userModel.find(
+          searchRegex ? { username: { $regex: searchRegex } } : {},
+        ),
+        options,
+      ),
+    ).pipe(
       map((res) => {
         const { metadata, data } = res;
         return {
