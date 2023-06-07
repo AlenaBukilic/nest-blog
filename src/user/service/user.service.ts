@@ -7,6 +7,7 @@ import { supportedRoles, UserPublic } from '../models/user.interface';
 import { User, UserDocument } from '../models/user.schema';
 import { paginate, PaginationOptions } from 'nestjs-paginate-mongo';
 import { PaginationData, SearchQuery } from '../../types/types.exporter';
+console.log('');
 
 @Injectable()
 export class UserService {
