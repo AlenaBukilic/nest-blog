@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { map, tap } from 'rxjs';
+import { map } from 'rxjs';
 import { PaginationData } from '../../../../../src/types/types.exporter';
 import { UserService } from '../../services/user-service/user.service';
 
