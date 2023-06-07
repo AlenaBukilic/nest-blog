@@ -12,11 +12,18 @@ export class UserService {
   };
   constructor(private http: HttpClient) {}
 
-  findAll(page: number, limit: number): Observable<PaginationData> {
+  findAll(
+    page: number,
+    limit: number,
+    username: string | undefined,
+  ): Observable<PaginationData> {
     let params = new HttpParams();
 
     params = params.append('page', String(page));
     params = params.append('limit', String(limit));
+    if (username) {
+      params = params.append('username', username);
+    }
 
     return this.http.get(this.url.index(), { params }).pipe(
       map((paginationData) => {

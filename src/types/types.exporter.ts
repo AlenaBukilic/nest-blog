@@ -9,3 +9,7 @@ export type PaginationData = {
     lastPage: number;
   };
 };
+
+export type SearchQuery = {
+  username: string;
+};
