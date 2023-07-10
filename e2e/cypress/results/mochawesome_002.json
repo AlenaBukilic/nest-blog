@@ -1,0 +1,220 @@
+{
+  "stats": {
+    "suites": 3,
+    "tests": 5,
+    "passes": 5,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-07-10T21:29:11.423Z",
+    "end": "2023-07-10T21:29:14.171Z",
+    "duration": 2748,
+    "testsRegistered": 5,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "b5f46380-151b-4511-b105-012065243b6b",
+      "title": "",
+      "fullFile": "cypress/e2e/users.cy.js",
+      "file": "cypress/e2e/users.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "dd1327af-b355-4924-b94e-fc16145ccfed",
+          "title": "Users Page",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "362bee6e-8a8d-4630-b5c3-61deabcbe430",
+              "title": "Api call to fetch users",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should load users table successfully",
+                  "fullTitle": "Users Page Api call to fetch users should load users table successfully",
+                  "timedOut": null,
+                  "duration": 833,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.get('[routerLink=\"/users\"]').click();\ncy.url().should('include', 'users');",
+                  "err": {},
+                  "uuid": "367393c6-6af8-42da-b28f-5f3d04ef153e",
+                  "parentUUID": "362bee6e-8a8d-4630-b5c3-61deabcbe430",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "367393c6-6af8-42da-b28f-5f3d04ef153e"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 833,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            },
+            {
+              "uuid": "13e7b23d-f481-4036-8258-425a38ff8cf4",
+              "title": "Check displayed data with filtering and pagination",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should contain right spelled text",
+                  "fullTitle": "Users Page Check displayed data with filtering and pagination should contain right spelled text",
+                  "timedOut": null,
+                  "duration": 396,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.contains('Id');\ncy.contains('Name');\ncy.contains('Username');\ncy.contains('Email');\ncy.contains('Role');",
+                  "err": {},
+                  "uuid": "d916c2c0-fdbc-4ab1-8d22-08cecd3bf6b0",
+                  "parentUUID": "13e7b23d-f481-4036-8258-425a38ff8cf4",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "should open page size dropdown",
+                  "fullTitle": "Users Page Check displayed data with filtering and pagination should open page size dropdown",
+                  "timedOut": null,
+                  "duration": 465,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.get('[ng-reflect-appearance=\"outline\"]').click();",
+                  "err": {},
+                  "uuid": "f672e95b-43ed-46e4-a35a-f9f14307b965",
+                  "parentUUID": "13e7b23d-f481-4036-8258-425a38ff8cf4",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "should open next page",
+                  "fullTitle": "Users Page Check displayed data with filtering and pagination should open next page",
+                  "timedOut": null,
+                  "duration": 481,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.get('[aria-label=\"Next page\"]').click();",
+                  "err": {},
+                  "uuid": "11b2f44d-1c9f-4127-8c3a-b2baa9170067",
+                  "parentUUID": "13e7b23d-f481-4036-8258-425a38ff8cf4",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "should type user name filter user by username",
+                  "fullTitle": "Users Page Check displayed data with filtering and pagination should type user name filter user by username",
+                  "timedOut": null,
+                  "duration": 513,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cy.get('mat-label').type('tes');\ncy.get('mat-table').find('mat-row').should('have.length', 1);",
+                  "err": {},
+                  "uuid": "af40d9e1-679b-43ae-b61c-4335c47750bc",
+                  "parentUUID": "13e7b23d-f481-4036-8258-425a38ff8cf4",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "d916c2c0-fdbc-4ab1-8d22-08cecd3bf6b0",
+                "f672e95b-43ed-46e4-a35a-f9f14307b965",
+                "11b2f44d-1c9f-4127-8c3a-b2baa9170067",
+                "af40d9e1-679b-43ae-b61c-4335c47750bc"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 1855,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/results",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

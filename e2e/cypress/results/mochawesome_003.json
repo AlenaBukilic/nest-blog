@@ -1,0 +1,124 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-07-10T21:30:48.471Z",
+    "end": "2023-07-10T21:30:49.897Z",
+    "duration": 1426,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "c0651628-29b4-46a3-b671-ad2b05f03985",
+      "title": "",
+      "fullFile": "cypress/e2e/homepage.cy.js",
+      "file": "cypress/e2e/homepage.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "f61c5d91-e543-4dd6-8456-fd7500b3a290",
+          "title": "Homepage",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should load successfully",
+              "fullTitle": "Homepage should load successfully",
+              "timedOut": null,
+              "duration": 972,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('/');",
+              "err": {},
+              "uuid": "57a31bd5-937b-447d-9926-790b0c6b1094",
+              "parentUUID": "f61c5d91-e543-4dd6-8456-fd7500b3a290",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should contain right spelled text",
+              "fullTitle": "Homepage should contain right spelled text",
+              "timedOut": null,
+              "duration": 405,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('Users');\ncy.contains('Admin');\ncy.contains('Login');\ncy.get('mat-select').click();\ncy.contains('Register');",
+              "err": {},
+              "uuid": "fda85f56-472c-4574-b2a4-f4b63c86a834",
+              "parentUUID": "f61c5d91-e543-4dd6-8456-fd7500b3a290",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "57a31bd5-937b-447d-9926-790b0c6b1094",
+            "fda85f56-472c-4574-b2a4-f4b63c86a834"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1377,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/results",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

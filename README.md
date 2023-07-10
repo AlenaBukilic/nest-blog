@@ -57,6 +57,9 @@ $ cd e2e
 $ npm install
 $ npm run cypress:open
 
+# generate e2e tests report
+$ npm run cypress:open
+
 # test coverage
 $ npm run test:cov
 ```
