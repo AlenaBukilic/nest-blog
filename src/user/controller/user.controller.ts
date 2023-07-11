@@ -8,8 +8,11 @@ import {
   UseGuards,
   Patch,
   Query,
+  UseInterceptors,
+  UploadedFile,
+  Request,
 } from '@nestjs/common';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { hasRoles } from 'src/auth/decorator/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
@@ -17,6 +20,16 @@ import { PaginationData } from 'src/types/types.exporter';
 import { UserPublic } from '../models/user.interface';
 import { User, UserRole } from '../models/user.schema';
 import { UserService } from '../service/user.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { editFileName } from '../../helpers/edit-filename';
+
+const storage = {
+  storage: diskStorage({
+    destination: './uploads/profileImages',
+    filename: editFileName,
+  }),
+};
 
 @Controller('users')
 export class UserController {
@@ -81,5 +94,17 @@ export class UserController {
     @Body() user: User,
   ): Observable<any> | Error {
     return this.userService.updateRoleOfUser(id, user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file', storage))
+  uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Request() req,
+  ): Observable<Record<string, any>> {
+    const user: User = req.user.user;
+    console.log(user);
+    return of({ imagePath: file.filename });
   }
 }
