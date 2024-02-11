@@ -104,7 +104,6 @@ export class UserController {
     @Request() req,
   ): Observable<Record<string, any>> {
     const user: User = req.user.user;
-    console.log(user);
     return of({ imagePath: file.filename });
   }
 }
