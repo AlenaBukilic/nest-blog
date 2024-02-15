@@ -1,4 +1,4 @@
-import { UserPublic } from '../user/models/user.interface';
+import { UserPublic } from '../user/model/user.interface';
 
 export type PaginationData = {
   data: UserPublic[];
