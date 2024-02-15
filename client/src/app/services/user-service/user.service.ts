@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { PaginationData } from '../../../../../src/types/types.exporter';
-import { User } from 'src/app/models/users.model';
+import { User } from '../../../app/models/users.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +15,17 @@ export class UserService {
 
   findOne(id: string): Observable<User> {
     return this.http.get(this.url.index() + id).pipe(
+      map((user: User) => {
+        return user;
+      }),
+      catchError((err: Error) => {
+        return throwError(() => err);
+      }),
+    );
+  }
+
+  updateOne(id: string, user: User): Observable<User> {
+    return this.http.patch(this.url.index() + id, user).pipe(
       map((user: User) => {
         return user;
       }),
