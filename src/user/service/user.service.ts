@@ -3,8 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
 import { AuthService } from 'src/auth/auth/auth.service';
-import { supportedRoles, UserPublic } from '../models/user.interface';
-import { User, UserDocument } from '../models/user.schema';
+import { supportedRoles, UserPublic } from '../model/user.interface';
+import { User, UserDocument } from '../model/user.schema';
 import { paginate, PaginationOptions } from 'nestjs-paginate-mongo';
 import { PaginationData, SearchQuery } from '../../types/types.exporter';
 
