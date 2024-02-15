@@ -1,18 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { User } from 'src/app/models/users.model';
 
 export interface LoginForm {
   email: string;
   password: string;
-}
-
-export interface User {
-  email?: string;
-  password?: string;
-  passwordConfirm?: string;
-  name?: string;
-  username?: string;
 }
 @Injectable({
   providedIn: 'root',
