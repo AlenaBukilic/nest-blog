@@ -15,16 +15,23 @@ export class UserService {
     private authService: AuthService,
   ) {}
 
-  _findByEmail(email: string): Observable<User> {
+  _findByEmail(email: string): Observable<UserPublic> {
     return from(
-      this.userModel.findOne({ emailToLowerCase: email.toLowerCase() }),
+      this.userModel
+        .findOne(
+          { emailToLowerCase: email.toLowerCase() },
+        )
+        .lean(),
     );
   }
 
   _decorateUserPublic(user: User): UserPublic {
-    delete user._doc.password;
-    delete user._doc.__v;
-    const copiedUser = { ...user._doc };
+    if (user._doc) {
+        user = user._doc;
+    }
+    delete user.password;
+    delete user.__v;
+    const copiedUser = { ...user };
     copiedUser.id = copiedUser._id;
     delete copiedUser._id;
     return copiedUser;
@@ -127,10 +134,10 @@ export class UserService {
     );
   }
 
-  login(user: User): Observable<string | Error> {
+  login(user: User): Observable<string> {
     return this.validateUser(user.email, user.password).pipe(
-      switchMap((match: boolean) => {
-        if (match) {
+      switchMap((user: User) => {
+        if (user) {
           return this.authService
             .generateJwt(user)
             .pipe(map((jwt: string) => jwt));
@@ -141,24 +148,32 @@ export class UserService {
     );
   }
 
-  validateUser(email: string, password: string): Observable<boolean | Error> {
+  validateUser(email: string, password: string): Observable<UserPublic> {
     return this._findByEmail(email).pipe(
       switchMap((user: User) =>
-        this.authService.comparePasswords(password, user.password),
+        this.authService.comparePasswords(password, user.password).pipe(
+          map((isValid: boolean) => {
+            if (isValid) {
+              return this._decorateUserPublic(user);
+            } else {
+              throw new Error('Something whent wrong.');
+            }
+          }),
+        ),
       ),
-      map((isValid: boolean) => {
-        if (isValid) {
-          return isValid;
-        } else {
-          throw new Error('Something whent wrong.');
-        }
-      }),
     );
   }
 
   findByEmail(email: string): Observable<UserPublic> {
     return from(
       this.userModel.findOne({ emailToLowerCase: email.toLowerCase() }),
-    ).pipe(map((user: User) => this._decorateUserPublic(user)));
+    ).pipe(
+      map((user: User) => {
+        if (!user) {
+          throw new Error('User not found.');
+        }
+        return this._decorateUserPublic(user);
+      }),
+    );
   }
 }
