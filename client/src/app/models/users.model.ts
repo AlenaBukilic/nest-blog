@@ -6,4 +6,5 @@ export interface User {
   username?: string;
   profileImg?: string;
   role?: string;
+  id?: string;
 }
