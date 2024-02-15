@@ -8,7 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UsersComponent } from './components/users/users.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -18,6 +18,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UpdateUserProfileComponent } from './components/update-user-profile/update-user-profile.component';
+import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     RegisterComponent,
     UsersComponent,
     UserProfileComponent,
+    UpdateUserProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +47,11 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     MatPaginatorModule,
     MatCardModule,
   ],
-  providers: [],
+  providers: [
+    JwtHelperService,
+    {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
