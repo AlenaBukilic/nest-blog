@@ -7,5 +7,6 @@ export interface UserPublic {
   email?: string;
   emailToLowerCase?: string;
   id?: string;
-  role: UserRole;
+  role?: UserRole;
+  profileImg?: string;
 }

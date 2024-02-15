@@ -30,6 +30,9 @@ export class User {
 
   @Prop({ type: String, enum: UserRole, default: UserRole.USER })
   role: UserRole;
+
+  @Prop()
+  profileImg: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
