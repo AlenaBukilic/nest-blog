@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { PaginationData } from '../../../../../src/types/types.exporter';
 import { UserService } from '../../services/user-service/user.service';
@@ -18,7 +18,7 @@ export class UsersComponent {
   page = 1;
   size = 10;
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.initData();
@@ -53,5 +53,9 @@ export class UsersComponent {
     this.filterValue = filterValue;
 
     this._getUsers(this.page, this.size, this.filterValue);
+  }
+
+  navigateToUserProfile(id: string) {
+    this.router.navigate(['./', id], { relativeTo: this.activatedRoute});
   }
 }
