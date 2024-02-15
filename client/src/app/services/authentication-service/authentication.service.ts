@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/models/users.model';
 
@@ -7,6 +8,8 @@ export interface LoginForm {
   email: string;
   password: string;
 }
+
+export const JWT_NAME = 'app-token';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,7 +18,7 @@ export class AuthenticationService {
     login: () => `/api/users/login`,
     register: () => `/api/users/`,
   };
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
 
   login(loginForm: LoginForm) {
     return this.http
@@ -25,7 +28,7 @@ export class AuthenticationService {
       })
       .pipe(
         map((token) => {
-          localStorage.setItem('app-token', token.access_token);
+          localStorage.setItem(JWT_NAME, token.access_token);
           return token;
         }),
       );
@@ -37,5 +40,10 @@ export class AuthenticationService {
         return user;
       }),
     );
+  }
+
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem(JWT_NAME);
+    return !this.jwtHelper.isTokenExpired(token);
   }
 }
