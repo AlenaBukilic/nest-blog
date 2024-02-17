@@ -17,7 +17,7 @@ export class Blog {
   @Prop({ default: '' })
   body: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, ref: 'User'})
   userId: Types.ObjectId;
 
   @Prop({ default: '' })

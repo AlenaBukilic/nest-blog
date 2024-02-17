@@ -21,7 +21,7 @@ export class UserService {
         .findOne(
           { emailToLowerCase: email.toLowerCase() },
         )
-        .lean(),
+        .lean().exec(),
     );
   }
 
