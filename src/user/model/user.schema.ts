@@ -10,7 +10,7 @@ export enum UserRole {
   USER = 'user',
 }
 
-@Schema()
+@Schema({ timestamps: true })
 export class User {
   [x: string]: any;
   @Prop()
