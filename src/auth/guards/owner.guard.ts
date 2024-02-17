@@ -1,5 +1,5 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { catchError, map, Observable, switchMap, throwError } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { BlogService } from 'src/blog/service/blog.service';
 import { User } from 'src/user/model/user.schema';
 import { UserService } from 'src/user/service/user.service';
@@ -28,9 +28,6 @@ export class OwnerGuard implements CanActivate {
           }),
         ),
       ),
-      catchError((err: Error) => {
-        return throwError(() => err);
-      }),
     );
   }
 }
