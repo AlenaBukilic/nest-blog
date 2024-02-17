@@ -26,7 +26,7 @@ export class UserService {
   }
 
   _decorateUserPublic(user: User): UserPublic {
-    if (user._doc) {
+    if (user && user._doc) {
         user = user._doc;
     }
     delete user.password;

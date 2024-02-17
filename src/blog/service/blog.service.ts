@@ -55,4 +55,21 @@ export class BlogService {
         .lean().exec(),
     );
   }
+
+  updateOne(id: string, blog: Blog): Observable<Blog> {
+    return from(
+      this.blogModel
+        .findOneAndUpdate(
+          { _id: new Types.ObjectId(id) },
+          { $set: blog },
+          { new: true },
+        )
+        .populate('userId', 'name email')
+        .lean().exec(),
+    );
+  }
+
+  deleteOne(id: string): Observable<any> {
+    return from(this.blogModel.deleteOne({ _id: new Types.ObjectId(id) }));
+  }
 }

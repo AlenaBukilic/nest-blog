@@ -79,6 +79,8 @@ export class UserController {
     );
   }
 
+  @hasRoles(UserRole.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   deleteOne(@Param('id') id: string): Observable<any> {
     return this.userService.deleteOne(id);
@@ -107,20 +109,23 @@ export class UserController {
     @UploadedFile() file: Express.Multer.File,
     @Request() req,
   ): Observable<Record<string, any>> {
-    const user: User = req.user.user;
+    const user: User = req.user;
 
     return this.userService
       .updateOne(user.id, {
-            ...user,
-          profileImg: file.filename,
+        ...user,
+        profileImg: file.filename,
       })
-      .pipe(
-        map((user: User) => ({ profileImg: user.profileImg })
-      ));
+      .pipe(map((user: User) => ({ profileImg: user.profileImg })));
   }
 
   @Get('image/:imgname')
-  findProfileImage(@Param('imgname') imgname: string, @Res() res): Observable<Record<string, any>> {
-    return of(res.sendFile(join(process.cwd(), 'uploads/profileImages/' + imgname)));
+  findProfileImage(
+    @Param('imgname') imgname: string,
+    @Res() res,
+  ): Observable<Record<string, any>> {
+    return of(
+      res.sendFile(join(process.cwd(), 'uploads/profileImages/' + imgname)),
+    );
   }
 }
