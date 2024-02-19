@@ -57,4 +57,11 @@ export class UserService {
       }),
     );
   }
+
+  uploadImage(formData: FormData): Observable<any> {
+    return this.http.post(this.url.index() + 'upload', formData, {
+        reportProgress: true,
+        observe: 'events',
+    });
+  }
 }
