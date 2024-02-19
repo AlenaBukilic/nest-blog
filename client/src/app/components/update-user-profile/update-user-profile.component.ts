@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { catchError, map, of, tap } from 'rxjs';
 import { switchMap } from 'rxjs';
@@ -71,7 +71,7 @@ export class UpdateUserProfileComponent {
         inProgress: false,
         progress: 0,
       };
-    //   this.fileUpload!.nativeElement.value = '';
+      this.fileUpload!.nativeElement.value = '';
       this.uploadFile();
     }
   }
@@ -108,12 +108,8 @@ export class UpdateUserProfileComponent {
       )
       .subscribe((event: any) => {
         if (typeof event === 'object') {
-          console.log('event.bidy: ', event.body);
-          this.form!.patchValue({ profileImg: event.body.profileImg });
+          this.form?.patchValue({ profileImg: event.body.profileImg });
         }
-        // this.file.inProgress = false;
-        // this.file.progress = 0;
-        // this.file.data = null;
       });
   }
 

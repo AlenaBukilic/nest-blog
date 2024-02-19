@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
-import { uuid } from 'uuidv4';
+const { v4: uuidv4 } = require('uuid');
+const uuid = uuidv4();
 
 export const editFileName = (
   req,
