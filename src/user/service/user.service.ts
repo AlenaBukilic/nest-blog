@@ -116,7 +116,14 @@ export class UserService {
     delete user.role;
 
     return from(
-      this.userModel.updateOne({ _id: new Types.ObjectId(id) }, user),
+      this.userModel
+        .findOneAndUpdate(
+          { _id: new Types.ObjectId(id) },
+          { $set: user },
+          { new: true },
+        )
+        .lean()
+        .exec(),
     );
   }
 
