@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Observable, catchError, from, of, switchMap, throwError } from 'rxjs';
+import { Observable, catchError, from, map, of, switchMap, tap, throwError } from 'rxjs';
 import { Blog, BlogDocument } from '../model/blog.schema';
 import { User } from '../../user/model/user.schema';
 import { UserService } from '../../user/service/user.service';
 import { Model, Types } from 'mongoose';
 import { BlogPublic } from '../model/blog.interface';
+import { paginate, PaginationOptions } from 'nestjs-paginate-mongo';
 const slugify = require('slugify');
 
 @Injectable()
@@ -38,7 +39,13 @@ export class BlogService {
   }
 
   findByUserId(userId: string): Observable<Record<string, any>> {
-    return from(this.blogModel.find({ userId }).populate('userId', 'name email' ).lean().exec());
+    return from(
+      this.blogModel
+        .find({ userId })
+        .populate('userId', 'name email')
+        .lean()
+        .exec(),
+    );
   }
 
   findAll(): Observable<Record<string, any>> {
@@ -52,8 +59,23 @@ export class BlogService {
       this.blogModel
         .findOne({ _id: new Types.ObjectId(id) })
         .populate('userId', 'name email')
-        .lean().exec(),
+        .lean()
+        .exec(),
     );
+  }
+
+  paginate(
+      options: PaginationOptions,
+      userId?: string,
+  ): Observable<any> {
+    return from(
+      paginate(
+        this.blogModel
+          .find(userId && { userId })
+          .populate('userId', 'name email'),
+        options,
+      ),
+    ).pipe(map((blogs) => blogs));
   }
 
   updateOne(id: string, blog: Blog): Observable<Blog> {
@@ -65,7 +87,8 @@ export class BlogService {
           { new: true },
         )
         .populate('userId', 'name email')
-        .lean().exec(),
+        .lean()
+        .exec(),
     );
   }
 
