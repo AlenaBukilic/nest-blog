@@ -16,12 +16,39 @@ export class BlogController {
     return this.blogService.create(user, blog);
   }
 
+  //   @Get()
+  //   findBlogs(@Query('userId') userId: string) {
+  //     if (userId) {
+  //       return this.blogService.findByUserId(userId);
+  //     }
+  //     return this.blogService.findAll();
+  //   }
+
+  @Get('user/:userId')
+  findByUser(
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+    @Param('userId') userId: string,
+  ): Observable<any> {
+    limit = limit > 100 ? 100 : limit;
+
+    return this.blogService.paginate(
+      {
+        page: Number(page),
+        perPage: Number(limit),
+      },
+      userId,
+    );
+  }
+
   @Get()
-  findBlogs(@Query('userId') userId: string) {
-    if (userId) {
-      return this.blogService.findByUserId(userId);
-    }
-    return this.blogService.findAll();
+  index(@Query('page') page = 1, @Query('limit') limit = 10): Observable<any> {
+    limit = limit > 100 ? 100 : limit;
+
+    return this.blogService.paginate({
+      page: Number(page),
+      perPage: Number(limit),
+    });
   }
 
   @Get(':id')
