@@ -1,10 +1,35 @@
-import { Controller, Post, Get, Body, Request, UseGuards, Query, Param, Patch, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  Request,
+  UseGuards,
+  Query,
+  Param,
+  Patch,
+  Delete,
+  UseInterceptors,
+  UploadedFile,
+  Res,
+} from '@nestjs/common';
 import { BlogService } from '../service/blog.service';
 import { Blog } from '../model/blog.schema';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { OwnerGuard } from 'src/auth/guards/owner.guard';
+import { editFileName } from 'src/helpers/edit-filename';
+import { diskStorage } from 'multer';
+import { join } from 'path';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Image } from '../../blog/model/blog.interface';
 
+const storage = {
+  storage: diskStorage({
+    destination: './uploads/blogImages',
+    filename: editFileName,
+  }),
+};
 @Controller('blogs')
 export class BlogController {
   constructor(private blogService: BlogService) {}
@@ -66,5 +91,26 @@ export class BlogController {
   @Delete(':id')
   deleteOne(@Param('id') id: string): Observable<any> {
     return this.blogService.deleteOne(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file', storage))
+  uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Request() req,
+  ): Observable<Image> {
+    return of(file);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('image/:imgname')
+  findBlogImage(
+    @Param('imgname') imgname: string,
+    @Res() res,
+  ): Observable<Record<string, any>> {
+    return of(
+      res.sendFile(join(process.cwd(), 'uploads/blogImages/' + imgname)),
+    );
   }
 }
