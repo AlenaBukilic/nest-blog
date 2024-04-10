@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
-import { PaginationData } from '../../../../../src/types/types.exporter';
+import { UsersPaginated } from '../../models/users.model';
 import { UserService } from '../../services/user-service/user.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { UserService } from '../../services/user-service/user.service';
   styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent {
-  dataSource: PaginationData | null = null;
+  dataSource: UsersPaginated | null = null;
   displayedColumns: string[] = ['id', 'name', 'username', 'email', 'role'];
   pageEvent!: PageEvent;
   filterValue!: string;
@@ -29,8 +29,8 @@ export class UsersComponent {
       .findAll(page, size, username)
       .pipe(
         map(
-          (paginationData: PaginationData) =>
-            (this.dataSource = paginationData),
+          (UsersPaginated: UsersPaginated) =>
+            (this.dataSource = UsersPaginated),
         ),
       )
       .subscribe();

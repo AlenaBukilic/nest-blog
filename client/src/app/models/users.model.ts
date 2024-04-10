@@ -8,3 +8,13 @@ export interface User {
   role?: string;
   id?: string;
 }
+
+export interface UsersPaginated {
+  data: User[];
+  metadata: {
+    total: number;
+    perPage: number | undefined;
+    page: number | undefined;
+    lastPage: number;
+  };
+}

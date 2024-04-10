@@ -1,1 +1,31 @@
-<p>blogs works!</p>
+<div style="width: 50%; margin-left: 25%">
+  <mat-card *ngFor="let blog of (dataSource | async)?.data" class="card">
+    <div style="display: flex">
+      <div>
+        <img
+          *ngIf="blog.headerImg !== ''; else placeholderImage"
+          src="http://localhost:3000/api/blog-entries/image/{{
+            blog.headerImg
+          }}"
+        />
+        <ng-template #placeholderImage>
+          <img src="../../../assets/placeholders/placeholder.png" />
+        </ng-template>
+      </div>
+      <div style="margin-left: 30px">
+        <h2>{{ blog.title }}</h2>
+        <p>{{ blog.description }}</p>
+        <small>Author: {{ blog.userId?.name }}</small>
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-paginator
+    [length]="(dataSource | async)?.metadata?.total"
+    [pageSize]="(dataSource | async)?.metadata?.perPage"
+    [pageSizeOptions]="[1, 5, 10, 25, 100]"
+    showFirstLastButtons
+    (page)="onPaginateChange($event)"
+  >
+  </mat-paginator>
+</div>
