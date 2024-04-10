@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Observable, catchError, from, map, of, switchMap, tap, throwError } from 'rxjs';
+import { Observable, catchError, from, map, of, switchMap, throwError } from 'rxjs';
 import { Blog, BlogDocument } from '../model/blog.schema';
 import { User } from '../../user/model/user.schema';
 import { UserService } from '../../user/service/user.service';
 import { Model, Types } from 'mongoose';
-import { BlogPublic } from '../model/blog.interface';
 import { paginate, PaginationOptions } from 'nestjs-paginate-mongo';
 const slugify = require('slugify');
 
