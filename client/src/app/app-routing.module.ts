@@ -7,6 +7,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { UpdateUserProfileComponent } from './components/update-user-profile/update-user-profile.component';
 import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './components/home/home.component';
+import { CreateBlogComponent } from './components/create-blog/create-blog.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,11 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+  },
+  {
+    path: 'create-blog',
+    component: CreateBlogComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: '',

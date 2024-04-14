@@ -4,9 +4,7 @@
       <div>
         <img
           *ngIf="blog.headerImg !== ''; else placeholderImage"
-          src="http://localhost:3000/api/blog-entries/image/{{
-            blog.headerImg
-          }}"
+          src="http://localhost:3000/api/blogs/image/{{ blog.headerImg }}"
         />
         <ng-template #placeholderImage>
           <img src="../../../assets/placeholders/placeholder.png" />

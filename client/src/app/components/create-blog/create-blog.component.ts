@@ -1,19 +1,17 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { catchError, map, of, tap } from 'rxjs';
-import { switchMap } from 'rxjs';
-import { AuthenticationService } from '../../../app/services/authentication-service/authentication.service';
-import { UserService } from '../../../app/services/user-service/user.service';
-import { User } from '../../models/users.model';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { File } from '../../models/file.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BlogService } from '../../../app/services/blog-service/blog.service';
+import { catchError, map, of, tap } from 'rxjs';
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 
 @Component({
-  selector: 'app-update-user-profile',
-  templateUrl: './update-user-profile.component.html',
-  styleUrls: ['./update-user-profile.component.scss'],
+  selector: 'app-create-blog',
+  templateUrl: './create-blog.component.html',
+  styleUrls: ['./create-blog.component.scss'],
 })
-export class UpdateUserProfileComponent {
+export class CreateBlogComponent {
   @ViewChild('fileUpload', { static: false }) fileUpload:
     | ElementRef
     | undefined;
@@ -28,34 +26,25 @@ export class UpdateUserProfileComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService,
-    private authService: AuthenticationService,
+    private blogService: BlogService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      username: ['', Validators.required],
-      name: ['', Validators.required],
-      profileImg: [''],
+      id: [{ value: '', disabled: true }],
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      body: ['', Validators.required],
+      slug: [{ value: '', disabled: true }],
+      headerImg: [''],
     });
+  }
 
-    this.authService
-      .getUserId()
-      .pipe(
-        switchMap((id: string) =>
-          this.userService.findOne(id).pipe(
-            tap((user: User) => {
-              this.userId = user.id as string;
-              this.form?.patchValue({
-                username: user.username,
-                name: user.name,
-                profileImg: user.profileImg,
-              });
-            }),
-          ),
-        ),
-      )
-      .subscribe();
+  createBlog(): void {
+    this.blogService.create(this.form.getRawValue()).pipe(
+        tap(() => this.router.navigate(['../']))
+    ).subscribe();
   }
 
   onFileSelected(event: any): void {
@@ -81,8 +70,8 @@ export class UpdateUserProfileComponent {
     formData.append('file', this.file.data);
     this.file.inProgress = true;
 
-    this.userService
-      .uploadImage(formData)
+    this.blogService
+      .uploadBlogImage(formData)
       .pipe(
         map((event: any) => {
           switch (event.type) {
@@ -102,21 +91,11 @@ export class UpdateUserProfileComponent {
         }),
       )
       .subscribe((event: any) => {
+
+        console.log('event', event);
         if (typeof event === 'object') {
-          this.form?.patchValue({ profileImg: event.body.profileImg });
+          this.form?.patchValue({ headerImg: event.body.filename });
         }
       });
-  }
-
-  updateProfile(): void {
-    if (this.form?.valid) {
-      const user: User = {
-        username: this.form?.get('username')?.value,
-        name: this.form?.get('name')?.value,
-      };
-      this.userService.updateOne(this.userId, user).subscribe();
-    } else {
-      console.error('Form is invalid');
-    }
   }
 }
