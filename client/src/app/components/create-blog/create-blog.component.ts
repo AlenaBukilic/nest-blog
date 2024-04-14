@@ -32,7 +32,6 @@ export class CreateBlogComponent {
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      id: [{ value: '', disabled: true }],
       title: ['', Validators.required],
       description: ['', Validators.required],
       body: ['', Validators.required],
