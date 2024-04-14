@@ -103,7 +103,6 @@ export class BlogController {
     return of(file);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('image/:imgname')
   findBlogImage(
     @Param('imgname') imgname: string,
